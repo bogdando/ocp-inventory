@@ -1,6 +1,6 @@
 env_id: "openshift"
 openstack_dns_domain: "cluster.lc"
-openstack_nameservers: ["192.168.0.2", "8.8.8.8"]
+openstack_nameservers: ["192.168.99.2", "8.8.8.8"]
 openstack_ssh_public_key: "bdobreli-rdo-cloud"
 openstack_default_image_name: "CentOS-7-x86_64-GenericCloud-1703"
 openstack_default_flavor: "m1.small"
