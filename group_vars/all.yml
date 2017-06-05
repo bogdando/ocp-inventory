@@ -38,3 +38,5 @@ openstack_subnet_prefix: "192.168.99"
 # NOTE(shadower): Do not change this value. The Ansible user is currently
 # hardcoded to `openshift`.
 ansible_user: openshift
+
+openstack_flat_secgrp: true
