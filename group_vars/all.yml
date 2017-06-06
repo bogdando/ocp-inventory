@@ -24,7 +24,7 @@ public_dns_forwarder: "{{openstack_nameservers[0]}}"
 openstack_subnet_prefix: "192.168.99"
 
 # # Red Hat subscription
-# rhsm_register: True
+rhsm_register: false
 # rhsm_repos:
 #  - "rhel-7-server-rpms"
 #  - "rhel-7-server-ose-3.5-rpms"
