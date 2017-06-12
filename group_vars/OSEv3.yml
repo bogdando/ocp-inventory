@@ -1,5 +1,5 @@
 ---
-openshift_deployment_type: openshift-enterprise
+openshift_deployment_type: "{{ deployment_type }}"
 openshift_release: v3.5
 openshift_master_default_subdomain: apps.{{openstack_dns_domain}}
 
@@ -11,6 +11,11 @@ osm_default_node_selector: 'region=primary'
 
 # htpasswd auth
 openshift_master_identity_providers:
-  - {'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}
-# Defining htpasswd users
-openshift_master_htpasswd_users: {'user1': '$2y$05$OUDHirUnCTsewM13dNEwZ.Di5/oBD/3iEt8pEfL5P4KbcT8uxtWL'}
+  - name: htpasswd_auth
+    login: true
+    challenge: true
+    kind: HTPasswdPasswordIdentityProvider
+    filename: /etc/origin/master/htpasswd
+# Defining htpasswd users (export MYSECRET=$(htpasswd -nbB user1 <password>), \$ escaped)
+openshift_master_htpasswd_users: 
+  user1: "{{ lookup('env', 'MYSECRET') }}"
