@@ -2,8 +2,14 @@
 env_id: openshift
 deployment_type: origin
 openstack_dns_domain: cluster.lc
+# The first nameserver in the list must come for an OpenShift cluster.
+# It is a nameserver that is authoritative for the openstack_dns_domain,
+# and forwards requests that it is not authorized to resolve to the
+# given public_dns_forwarder.
 openstack_nameservers:
- - 192.168.99.2
+  - "{{ hostvars[groups.dns|first].openstack.private_v4 }}"
+  - 192.168.1.1
+  - 8.8.8.8
 openstack_ssh_public_key: bdobreli-rdo-cloud
 openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
 openstack_default_flavor: m1.small
@@ -20,9 +26,7 @@ docker_volume_size: 15
 # We should make it so it's not duplicated here.
 dns_domain: "{{openstack_dns_domain}}"
 
-# TODO(shadower): this is identical to `openstack_nameservers`.
-# We should make it so it's not duplicated here.
-public_dns_forwarder: "{{openstack_nameservers[0]}}"
+public_dns_forwarder: 192.168.1.1
 
 openstack_subnet_prefix: 192.168.99
 
