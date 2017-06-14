@@ -2,7 +2,9 @@
 openshift_deployment_type: "{{ deployment_type }}"
 #openshift_release: v3.5
 origin_release: 1.5.1
-openshift_master_default_subdomain: apps.{{openstack_dns_domain}}
+# The env_id acts as a subdomain that corresponds to a k8s namespace all apps
+# must belong to, unless there are federated domains configured
+openshift_master_default_subdomain: apps.{{env_id}}.{{openstack_dns_domain}}
 openshift_use_dnsmasq: false
 
 # NOTE(shadower): do not remove this line, otherwise the default node labels
