@@ -20,7 +20,7 @@ openshift_master_identity_providers:
     challenge: true
     kind: HTPasswdPasswordIdentityProvider
     filename: /etc/origin/master/htpasswd
-# Define htpasswd users, export MYSECRET=$(htpasswd -nbm user1 <password>), \$ escaped
-# MD5 method hash used
+# Define htpasswd users, like:
+# export MYSECRET=$(htpasswd -nbm user1 Cvnmvnslslkjdgh123t6|awk -F ':' '{print $2}')
 openshift_master_htpasswd_users: 
   user1: "{{ lookup('env', 'MYSECRET') }}"
