@@ -5,7 +5,8 @@ origin_release: 1.5.1
 # The env_id acts as a subdomain that corresponds to a k8s namespace all apps
 # must belong to, unless there are federated domains configured
 openshift_master_default_subdomain: apps.{{env_id}}.{{openstack_dns_domain}}
-openshift_use_dnsmasq: false
+#openshift_use_dnsmasq: false
+openshift_use_dnsmasq: true
 
 # NOTE(shadower): do not remove this line, otherwise the default node labels
 # won't be set up.
