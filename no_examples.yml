@@ -1,0 +1,6 @@
+# must be disabled to redeploy on-top                                                                                                                                             
+openshift_examples_load_rhel: false
+openshift_examples_load_centos: false
+openshift_examples_load_db_templates: false
+openshift_examples_load_quickstarts: false
+openshift_examples_load_xpaas: false
