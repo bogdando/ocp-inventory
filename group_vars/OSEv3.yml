@@ -20,3 +20,6 @@ openshift_master_identity_providers:
 # export MYSECRET=$(htpasswd -nbm user1 Cvnmvnslslkjdgh123t6|awk -F ':' '{print $2}')
 openshift_master_htpasswd_users: 
   user1: "{{ lookup('env', 'MYSECRET') }}"
+
+openshift_disable_check: disk_availability,memory_availability
+#openshift_disable_check: package_availability,docker_image_availability,docker_storage,package_version
