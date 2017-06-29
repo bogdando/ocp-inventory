@@ -4,7 +4,7 @@ deployment_type: origin
 public_dns_domain: cluster.lc
 public_dns_nameservers:
   - 208.67.222.220
-  - 192.168.1.1
+  - 38.145.32.66
 openshift_use_dnsmasq: true
 openstack_ssh_public_key: bdobreli-rdo-cloud
 openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
