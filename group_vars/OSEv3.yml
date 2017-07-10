@@ -21,5 +21,4 @@ openshift_master_identity_providers:
 openshift_master_htpasswd_users: 
   user1: "{{ lookup('env', 'MYSECRET') }}"
 
-openshift_disable_check: disk_availability,memory_availability
-#openshift_disable_check: package_availability,docker_image_availability,docker_storage,package_version
+openshift_disable_check: disk_availability,memory_availability,package_availability,docker_image_availability,docker_storage,package_version
