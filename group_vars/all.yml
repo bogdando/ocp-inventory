@@ -76,6 +76,7 @@ openstack_flat_secgrp: true
 # # Use bastion node to access cluster nodes (Defaults to False).
 # # Requires a static inventory.
 openstack_use_bastion: True
+bastion_ingress_cidr: "{{openstack_subnet_prefix}}.0/24"
 # # The Nova key-pair's private SSH key to access bastion node
 openstack_private_ssh_key: ~/.config/openstack/bdobreli-rdo-cloud.pem
 # # The path for the SSH config to access all nodes
