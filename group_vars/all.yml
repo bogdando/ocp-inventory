@@ -1,11 +1,9 @@
 ---
 env_id: "openshift"
-deployment_type: "origin"
 public_dns_domain: "cluster.lc"
 public_dns_nameservers:
   - 208.67.222.220
   - 38.145.32.66
-openshift_use_dnsmasq: true
 openstack_ssh_public_key: bdobreli-rdo-cloud
 openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
 openstack_default_flavor: m1.small
@@ -26,6 +24,8 @@ docker_volume_size: "15"
 openstack_subnet_prefix: "192.168.99"
 
 # # Red Hat subscription
+rhsm_register: False
+
 # # Using Red Hat Satellite:
 #rhsm_register: True
 #rhsm_satellite: 'sat-6.example.com'
@@ -33,7 +33,7 @@ openstack_subnet_prefix: "192.168.99"
 #rhsm_activationkey: '<activation-key>'
 
 # # Or using RHN username, password and optionally pool:
-rhsm_register: false
+#rhsm_register: True
 #rhsm_username: '<username>'
 #rhsm_password: '<password>'
 #rhsm_pool: '<pool id>'
@@ -76,8 +76,9 @@ openstack_flat_secgrp: true
 # # Use bastion node to access cluster nodes (Defaults to False).
 # # Requires a static inventory.
 openstack_use_bastion: True
+openshift_ui_ssh_tunnel: True
 bastion_ingress_cidr: "{{openstack_subnet_prefix}}.0/24"
 # # The Nova key-pair's private SSH key to access bastion node
-openstack_private_ssh_key: ~/.config/openstack/bdobreli-rdo-cloud.pem
+openstack_private_ssh_key: /home/bogdando/.config/openstack/bdobreli-rdo-cloud.pem
 # # The path for the SSH config to access all nodes
 #openstack_ssh_config_path: /tmp/ssh.config.openshift.ansible
