@@ -1,0 +1,56 @@
+---
+# Update the entries below to run dynamic updates test
+- hosts: localhost
+  gather_facts: False
+  become: False
+  vars_files:
+    - external_dns.yaml
+  vars:
+    stack_name: "{{ env_id }}.{{ public_dns_domain }}"
+    key_secret_pub: "{{ external_nsupdate_keys.public.key_secret }}"
+    key_secret_priv: "{{ external_nsupdate_keys.private.key_secret }}"
+    server: "{{ external_nsupdate_keys.public.server }}"
+  roles:
+    - role: infra-ansible/roles/dns
+      dns_records_rm:
+        - view: private
+          zone: "{{ stack_name }}"
+          server: "{{ server }}"
+          key_name: "private-{{ stack_name }}"
+          key_secret: "{{ key_secret_priv }}"
+          key_algorithm: "hmac-sha256"
+          entries:
+          - type: A
+            hostname: app-node-1
+            ip: 1.2.3.4
+        - view: public
+          zone: "{{ stack_name }}"
+          server: "{{ server }}"
+          key_name: "public-{{ stack_name }}"
+          key_secret: "{{ key_secret_pub }}"
+          key_algorithm: "hmac-sha256"
+          entries:
+          - type: A 
+            hostname: infranode-0
+            ip: 4.3.2.1
+      dns_records_add:
+        - view: private
+          zone: "{{ stack_name }}"
+          server: "{{ server }}"
+          key_name: "private-{{ stack_name }}"
+          key_secret: "{{ key_secret_priv }}"
+          key_algorithm: "hmac-sha256"
+          entries:
+          - type: A
+            hostname: foo
+            ip: 172.16.10.20
+        - view: public
+          zone: "{{ stack_name }}"
+          server: "{{ server }}"
+          key_name: "public-{{ stack_name }}"
+          key_secret: "{{ key_secret_pub }}"
+          key_algorithm: "hmac-sha256"
+          entries:
+          - type: A 
+            hostname: bar
+            ip: 10.9.77.20

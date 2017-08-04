@@ -1,0 +1,12 @@
+---
+# # Roll-your-own DNS
+# Update the values below with the keys/IP listed with the post-provision playbook
+external_nsupdate_keys:
+  public:
+    key_secret: 'foo'
+    key_algorithm: 'hmac-sha256'
+    server: 'baz'
+  private:
+    key_secret: 'bar'
+    key_algorithm: 'hmac-sha256'
+    server: 'qux'
