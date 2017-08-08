@@ -1,5 +1,5 @@
 ---
-env_id: "openshift"
+env_id: "openshift2"
 public_dns_domain: "cluster.lc"
 public_dns_nameservers:
   - 208.67.222.220
@@ -81,4 +81,9 @@ bastion_ingress_cidr: "{{openstack_subnet_prefix}}.0/24"
 # # The Nova key-pair's private SSH key to access bastion node
 openstack_private_ssh_key: /home/bogdando/.config/openstack/bdobreli-rdo-cloud.pem
 # # The path for the SSH config to access all nodes
-#openstack_ssh_config_path: /tmp/ssh.config.openshift.ansible
+#openstack_ssh_config_path: /tmp/ssh.config.openshift.ansible.{{ env_id }}.{{ public_dns_domain }}
+
+
+# If you want to use the VM storage instead of Cinder volumes, set this to `true`.
+# NOTE: this is for testing only! Your data will be gone once the VM disappears!
+ephemeral_volumes: True
