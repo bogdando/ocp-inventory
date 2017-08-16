@@ -4,10 +4,19 @@ public_dns_domain: "cluster.lc"
 public_dns_nameservers:
   - 208.67.222.220
   - 38.145.32.66
+
+# # Used Hostnames
+# # - set custom hostnames for roles by uncommenting corresponding lines
+#openstack_master_hostname: "master"
+#openstack_infra_hostname: "infra-node"
+#openstack_node_hostname: "app-node"
+#openstack_lb_hostname: "lb"
+#openstack_etcd_hostname: "etcd"
+#openstack_dns_hostname: "dns"
+
 openstack_ssh_public_key: bdobreli-rdo-cloud
-openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
-openstack_default_flavor: m1.small
 openstack_external_network_name: 38.145.32.0/22
+#openstack_private_network_name:  "openshift-ansible-{{ stack_name }}-net"
 # curl https://api.ipify.org, export the IP in a /32 notation
 node_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}" 
 ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
@@ -21,9 +30,9 @@ ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
 #openstack_lb_image_name: "centos7"
 #openstack_etcd_image_name: "centos7"
 #openstack_dns_image_name: "centos7"
-#openstack_private_network_name:  "openshift-ansible-{{ stack_name }}-net"
+openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
 
-openstack_num_masters: 1
+openstack_num_masters: 2
 openstack_num_infra: 1
 openstack_num_nodes: 1
 
@@ -41,6 +50,15 @@ openstack_default_flavor: "m1.medium"
 # # Numerical index of nodes to remove
 # openstack_nodes_to_remove: []
 
+# # Docker volume size
+# # - set specific volume size for roles by uncommenting corresponding lines
+# # - note: do not remove docker_default_volume_size definition
+#docker_master_volume_size: "15"
+#docker_infra_volume_size: "15"
+#docker_node_volume_size: "15"
+#docker_etcd_volume_size: "2"
+#docker_dns_volume_size: "1"
+#docker_lb_volume_size: "5"
 docker_volume_size: "15"
 
 openstack_subnet_prefix: "192.168.99"
@@ -78,6 +96,16 @@ rhsm_register: False
 #    key_secret: 'kVE2bVTgZjrdJipxPhID8BEZmbHD8cExlVPR+zbFpW6la8kL5wpXiwOh8q5AAosXQI5t95UXwq3Inx8QT58duw=='
 #    key_algorithm: 'hmac-md5'
 #    server: '192.168.1.2'
+
+# # Or roll a mixed instack/external DNS
+#external_nsupdate_keys:
+#  public:
+#    key_secret: 'foo'
+#    key_algorithm: 'hmac-md5'
+#    server: '192.168.1.1'
+#  private:
+#    instack: true
+#    public_access: false
 
 
 # NOTE(shadower): Do not change this value. The Ansible user is currently
