@@ -1,5 +1,5 @@
 ---
-env_id: "openshift2"
+env_id: "openshift"
 public_dns_domain: "cluster.lc"
 public_dns_nameservers:
   - 208.67.222.220
@@ -12,9 +12,31 @@ openstack_external_network_name: 38.145.32.0/22
 node_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}" 
 ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
 
+# # Used Images
+# # - set specific images for roles by uncommenting corresponding lines
+# # - note: do not remove openstack_default_image_name definition
+#openstack_master_image_name: "centos7"
+#openstack_infra_image_name: "centos7"
+#openstack_node_image_name: "centos7"
+#openstack_lb_image_name: "centos7"
+#openstack_etcd_image_name: "centos7"
+#openstack_dns_image_name: "centos7"
+#openstack_private_network_name:  "openshift-ansible-{{ stack_name }}-net"
+
 openstack_num_masters: 1
 openstack_num_infra: 1
 openstack_num_nodes: 1
+
+# # Used Flavors
+# # - set specific flavors for roles by uncommenting corresponding lines
+# # - note: do note remove openstack_default_flavor definition
+#openstack_master_flavor: "m1.medium"
+#openstack_infra_flavor: "m1.medium"
+#openstack_node_flavor: "m1.medium"
+#openstack_lb_flavor: "m1.medium"
+#openstack_etcd_flavor: "m1.medium"
+#openstack_dns_flavor: "m1.medium"
+openstack_default_flavor: "m1.medium"
 
 # # Numerical index of nodes to remove
 # openstack_nodes_to_remove: []

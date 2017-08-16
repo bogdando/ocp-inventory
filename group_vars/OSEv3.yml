@@ -25,5 +25,16 @@ openshift_master_identity_providers:
 openshift_master_htpasswd_users: 
   user1: "{{ lookup('env', 'MYSECRET') }}"
 
+# NOTE(shadower): the hostname check seems to always fail because the
+# host's floating IP address doesn't match the address received from
+# inside the host.
 openshift_override_hostname_check: true
+
+# For POCs or demo environments that are using smaller instances than
+# the official recommended values for RAM and DISK, uncomment the line below.
+#openshift_disable_check: disk_availability,memory_availability
 openshift_disable_check: disk_availability,memory_availability,package_availability,docker_image_availability,docker_storage,package_version
+
+# NOTE(shadower): Always switch to root on the OSEv3 nodes.
+# openshift-ansible requires an explicit `become`.
+ansible_become: true
