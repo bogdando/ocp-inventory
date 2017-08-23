@@ -32,7 +32,7 @@ ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
 #openstack_dns_image_name: "centos7"
 openstack_default_image_name: CentOS-7-x86_64-GenericCloud-1703
 
-openstack_num_masters: 2
+openstack_num_masters: 1
 openstack_num_infra: 1
 openstack_num_nodes: 1
 
