@@ -33,3 +33,5 @@ contact: bdobreli@redhat.com
 # sat6_hostname: ""
 # sat6_organization: ""
 # sat6_activationkey: ""
+
+node_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
