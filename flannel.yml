@@ -1,0 +1,3 @@
+openshift_use_openshift_sdn: false
+openshift_use_flannel: true
+flannel_interface: eth0
