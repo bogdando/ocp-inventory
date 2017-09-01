@@ -1,3 +1,4 @@
 openshift_use_openshift_sdn: false
 openshift_use_flannel: true
-flannel_interface: eth0
+flannel_interface: eth1
+#osm_cluster_network_cidr: 10.128.0.0/14
