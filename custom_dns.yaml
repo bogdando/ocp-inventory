@@ -1,0 +1,3 @@
+#openshift_openstack_public_hostname_suffix: openshift-pub
+openshift_openstack_private_hostname_suffix: openshift-priv
+openshift_openstack_private_dns_domain: example.local
