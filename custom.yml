@@ -1,16 +1,8 @@
 # Configs for attic / contribs galaxy modules
-# OpenStack inventory type and cluster nodes access pattern
-# Defaults to 'static'.
-# Use 'dynamic' to access cluster nodes directly, via floating IPs
-# and given a dynamic inventory script, like openstack.py
 openstack_inventory: static
-# The path to checkpoint the static inventory from the in-memory one
-openstack_inventory_path: ../../../../inventory
-# Use bastion node to access cluster nodes (Defaults to False).
-# Requires a static inventory.
-openstack_use_bastion: True
-openshift_ui_ssh_tunnel: True
-bastion_ingress_cidr: "{{openstack_subnet_prefix}}.0/24"
+openshift_openstack_use_bastion: True
+openshift_openstack_ui_ssh_tunnel: True
+openshift_openstack_bastion_ingress_cidr: "{{openshift_openstack_subnet_prefix}}.0/24"
 # The Nova keypair's private SSH key to access inventory nodes.
 openstack_private_ssh_key: /home/bogdando/.config/openstack/bdobreli-rdo-cloud.pem
 # The path for the SSH config to access all nodes
