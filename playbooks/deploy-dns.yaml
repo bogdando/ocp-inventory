@@ -1,0 +1,99 @@
+---
+# based on OSP 10 ref arch contribs playbook
+- name: Deploy the DNS servers
+  hosts: localhost
+  connection: local
+  become: no
+  gather_facts: no
+  vars:
+    domain_name: "{{ openshift_openstack_full_public_dns_domain }}"
+    dns_forwarders: "{{ openshift_openstack_dns_nameservers }}"
+    external_network: "{{ openshift_openstack_external_network_name }}"
+    image: "{{ openshift_openstack_default_image_name }}"
+    ssh_user: openshift
+    private_ssh_key: "{{ openstack_private_ssh_key|default('') }}"
+    ssh_key_name: "{{ openshift_openstack_keypair_name }}"
+    # NOTE: YOU MUST CHANGE THIS!
+    # Can be generated with:
+    #     ddns-confgen -r /dev/urandom
+    # or:
+    #     rndc-confgen -a -c update.key -k update-key -r /dev/urandom
+    update_key: "VXQsVJgDtEj1CFPjnt/OK3ilgJyAzT6OeY9CDoqa0/Q="
+    stack_name: "dns-service-{{ openshift_openstack_full_public_dns_domain }}"
+    # Only a single master configuration is supported here
+    slave_count: 0
+    slave_server_group_policies: ['anti-affinity']
+    flavor: m1.small
+    contact: bdobreli@redhat.com
+    master_hostname: dns-0
+  tasks:
+
+  - name: Check whether the stack exists already
+    command: "openstack stack show {{ stack_name }}"
+    ignore_errors: yes
+    register: stack_check
+
+  - name: Create the Heat Stack
+    os_stack:
+      name: "{{ stack_name }}"
+      template: ../../galaxy/openshift-ansible-contrib/reference-architecture/osp-dns/heat/dns_service.yaml
+      parameters:
+        domain_name: "{{ domain_name }}"
+        external_network: "{{ external_network }}"
+        ssh_key_name: "{{ ssh_key_name }}"
+        dns_forwarders: "{{ dns_forwarders }}"
+        image: "{{ image }}"
+        flavor: "{{ flavor }}"
+        master_hostname: "{{ master_hostname }}"
+        slave_count: "{{ slave_count }}"
+        slave_server_group_policies: "{{ slave_server_group_policies }}"
+    register: stack_output
+    when: stack_check.rc != 0
+
+  - name: Register stack output
+    command: >
+      openstack stack output show -f value -c output_value
+      {{ stack_name }} ip_address
+    register: stack_output_raw
+
+  - set_fact:
+      stack_output: "{{ stack_output_raw.stdout|from_json }}"
+
+  - name: Add the master to the inventory
+    add_host:
+      name: "{{ master_hostname}}.{{ openshift_openstack_full_public_dns_domain }}"
+      ansible_host: "{{ stack_output.master.address }}"
+      groups: masters,bind
+      zone: "{{ domain_name }}"
+      domain_name: "{{ domain_name }}"
+      masters: [" {{ stack_output.master.name }} "]
+      forwarders: "{{ dns_forwarders }}"
+      contact: "{{ contact }}"
+      nameservers: "{{ [stack_output.master] + stack_output.slaves }}"
+      ansible_user: "{{ ssh_user }}"
+      ansible_private_key_file: "{{ private_ssh_key }}"
+      ansible_ssh_extra_args: "-F /dev/null"
+
+  - name: Join master to inventory with the clusterid, if managed with CASL DNS
+    command: |
+      openstack server set --property \
+      "clusterid={{ openshift_openstack_full_public_dns_domain }}" \
+      {{ master_hostname}}.{{ openshift_openstack_full_public_dns_domain }}
+    when: stack_check.rc != 0
+
+#- name: Refresh Server inventory
+#  hosts: localhost
+#  connection: local
+#  gather_facts: False
+#  tasks:
+#    - meta: refresh_inventory
+
+- name: Wait for the deployed servers
+  hosts: all
+  gather_facts: no
+  tasks:
+    - wait_for_connection:
+
+# Only configure if not managed with CASL DNS
+- include: ../../galaxy/openshift-ansible-contrib/reference-architecture/osp-dns/ansible/bind-server.yml
+  when: osp10_ref_arch_dns|default(False)

@@ -1,3 +1,4 @@
+#openstack_private_data_network_name: "openshift-ansible-{{ openshift_openstack_full_public_dns_domain }}-data-net"
 openshift_use_openshift_sdn: false
 openshift_use_flannel: true
 flannel_interface: eth1

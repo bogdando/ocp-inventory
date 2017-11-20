@@ -23,7 +23,9 @@
   become: true
   roles:
     - galaxy/openshift-ansible-contrib/roles/dns-views
+      when: not osp10_ref_arch_dns|default(False)
     - galaxy/infra-ansible/roles/dns-server
+      when: not osp10_ref_arch_dns|default(False)
 
 - name: Build and process DNS Records
   hosts: localhost
@@ -31,8 +33,9 @@
   become: False
   roles:
     - role: galaxy/openshift-ansible-contrib/roles/dns-records
-      use_bastion: "{{ openstack_use_bastion|default(False)|bool }}"
+      use_bastion: "{{ openshift_openstack_use_bastion|default(False)|bool }}"
     - galaxy/infra-ansible/roles/dns
+      when: not osp10_ref_arch_dns|default(False)
 
 #- name: Switch the stack subnet to the configured private DNS server
 #  hosts: localhost
