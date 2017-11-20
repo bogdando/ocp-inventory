@@ -15,24 +15,24 @@
   gather_facts: False
   become: False
   roles:
-    - ../galaxy/openshift-ansible-contrib/roles/dns-server-detect
+    - galaxy/openshift-ansible-contrib/roles/dns-server-detect
 
 - name: Build the DNS Server Views and Configure DNS Server(s)
   hosts: dns
   gather_facts: False
   become: true
   roles:
-    - role: ../galaxy/openshift-ansible-contrib/roles/dns-views
-    - role: ../galaxy/infra-ansible/roles/dns-server
+    - galaxy/openshift-ansible-contrib/roles/dns-views
+    - galaxy/infra-ansible/roles/dns-server
 
 - name: Build and process DNS Records
   hosts: localhost
   gather_facts: True
   become: False
   roles:
-    - role: ../galaxy/openshift-ansible-contrib/roles/dns-records
+    - role: galaxy/openshift-ansible-contrib/roles/dns-records
       use_bastion: "{{ openstack_use_bastion|default(False)|bool }}"
-    - role: ../galaxy/infra-ansible/roles/dns
+    - galaxy/infra-ansible/roles/dns
 
 #- name: Switch the stack subnet to the configured private DNS server
 #  hosts: localhost
@@ -42,5 +42,5 @@
 #    - stack_params.yaml
 #  tasks:
 #    - include_role:
-#        name: ../galaxy/openshift-ansible-contrib/roles/openstack-stack
+#        name: galaxy/openshift-ansible-contrib/roles/openstack-stack
 #        tasks_from: subnet_update_dns_servers

@@ -2,7 +2,8 @@
 - hosts: localhost
   gather_facts: True
   become: False
-    - role: ../galaxy/openshift-ansible-contrib/roles/static_inventory
+  roles:
+    - role: galaxy/openshift-ansible-contrib/roles/static_inventory
       when: openstack_inventory|default('static') == 'static'
       inventory_path: "{{ openstack_inventory_path|default(lookup('env','PWD') + '/inventory') }}"
       private_ssh_key: "{{ openstack_private_ssh_key|default('') }}"
