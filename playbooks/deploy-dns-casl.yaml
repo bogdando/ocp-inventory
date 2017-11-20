@@ -122,12 +122,12 @@
 - hosts: all
   become: yes
   roles:
-  - role: roles/infra-ansible/roles/dns-server
+  - role: ../galaxy/infra-ansible/roles/dns-server
     named_config_recursion: 'no'
     named_config_views:
     - name: "public"
       recursion: 'no'
-      acl_entry: 
+      acl_entry:
         - "{{ nameservers[0].address }}/32"
         - "{{ node_ingress_cidr }}"
       zone:

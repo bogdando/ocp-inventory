@@ -1,0 +1,36 @@
+# Configs for attic / contribs galaxy modules
+# OpenStack inventory type and cluster nodes access pattern
+# Defaults to 'static'.
+# Use 'dynamic' to access cluster nodes directly, via floating IPs
+# and given a dynamic inventory script, like openstack.py
+openstack_inventory: static
+# The path to checkpoint the static inventory from the in-memory one
+openstack_inventory_path: ../../../../inventory
+# Use bastion node to access cluster nodes (Defaults to False).
+# Requires a static inventory.
+openstack_use_bastion: True
+openshift_ui_ssh_tunnel: True
+bastion_ingress_cidr: "{{openstack_subnet_prefix}}.0/24"
+# The Nova keypair's private SSH key to access inventory nodes.
+openstack_private_ssh_key: /home/bogdando/.config/openstack/bdobreli-rdo-cloud.pem
+# The path for the SSH config to access all nodes
+openstack_ssh_config_path: /tmp/ssh.config.openshift.ansible.{{ openshift_openstack_full_public_dns_domain }}
+
+# Custom configs
+openshift_openstack_public_dns_domain: "cluster.lc"
+openshift_openstack_dns_nameservers:
+  - 208.67.222.220
+  - 38.145.32.66
+openshift_openstack_keypair_name: "bdobreli-rdo-cloud"
+openshift_openstack_external_network_name: "38.145.32.0/22"
+# curl https://api.ipify.org, export the IP in a /32 notation
+node_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}" 
+ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
+openshift_openstack_default_image_name: "CentOS-7-x86_64-GenericCloud-1706"
+openshift_openstack_num_nodes: 1
+rhsm_register: False
+openshift_openstack_flat_secgrp: true
+openshift_openstack_ephemeral_volumes: true
+
+
+
