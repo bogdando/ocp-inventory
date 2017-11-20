@@ -1,7 +1,7 @@
 ---
 # # Roll-your-own DNS
 # Update the values below with the keys/IP listed with the post-provision playbook
-external_nsupdate_keys:
+openshift_openstack_external_nsupdate_keys:
   public:
     key_secret: VXQsVJgDtEj1CFPjnt/OK3ilgJyAzT6OeY9CDoqa0/Q=
     key_name: 'update-key'
