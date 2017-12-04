@@ -1,21 +1,5 @@
 # Configs for attic / contribs galaxy modules
-openstack_inventory: static
-openshift_openstack_use_bastion: True
-openshift_openstack_ui_ssh_tunnel: True
-openshift_openstack_bastion_ingress_cidr: "{{openshift_openstack_subnet_prefix}}.0/24"
-# The Nova keypair's private SSH key to access inventory nodes.
-openstack_private_ssh_key: /home/bogdando/.config/openstack/bdobreli-rdo-cloud.pem
-# The path for the SSH config to access all nodes
-openstack_ssh_config_path: /tmp/ssh.config.openshift.ansible.{{ openshift_openstack_full_public_dns_domain }}
 openshift_openstack_private_network_name: "openshift-ansible-{{ openshift_openstack_full_public_dns_domain }}-net"
-
-#osp10_ref_arch_dns: true
-# # FIXME: Dirty hack for OSP10 ref arch dns_service Heat template compat:
-# # you can't define its service_network/network_name_prefix params,
-# # so hack openshift_openstack_private_network_name instead.
-#openshift_openstack_private_network_name:  "dns-network"
-# # You also can't alter its service_subnet_cidr=192.168.0, so make sure the
-#openshift_openstack_subnet_prefix is routed
 
 # Custom configs
 openshift_openstack_public_dns_domain: "cluster.lc"
@@ -28,10 +12,7 @@ openshift_openstack_external_network_name: "38.145.32.0/22"
 node_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
 ssh_ingress_cidr: "{{ lookup('env', 'INGRESS_CIDR') }}"
 openshift_openstack_default_image_name: "CentOS-7-x86_64-GenericCloud-1706"
-openshift_openstack_dns_flavor: "m1.small"
 openshift_openstack_num_nodes: 1
-# comment out, if osp10_ref_arch_dns=true
-openshift_openstack_num_dns: 1
 rhsm_register: False
 openshift_openstack_flat_secgrp: true
 openshift_openstack_ephemeral_volumes: true
