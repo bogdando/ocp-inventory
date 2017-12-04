@@ -68,3 +68,5 @@ ansible_become: true
 #openshift_use_openshift_sdn: false
 #openshift_use_flannel: true
 #flannel_interface: eth1
+#
+openshift_repos_enable_testing: true
