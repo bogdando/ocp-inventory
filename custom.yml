@@ -19,3 +19,6 @@ openshift_openstack_ephemeral_volumes: true
 
 # required for openshift-ansible compat
 openshift_master_unsupported_embedded_etcd: true
+
+# testing repos to install 3.7 rpms instead of 3.6
+openshift_repos_enable_testing: true
