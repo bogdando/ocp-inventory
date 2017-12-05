@@ -1,4 +1,5 @@
 ---
+ext_dns_ip: 38.145.33.9
 # # Roll-your-own DNS
 # Update the values below with the keys/IP listed with the post-provision playbook
 openshift_openstack_external_nsupdate_keys:
@@ -6,4 +7,6 @@ openshift_openstack_external_nsupdate_keys:
     key_secret: VXQsVJgDtEj1CFPjnt/OK3ilgJyAzT6OeY9CDoqa0/Q=
     key_name: 'update-key'
     key_algorithm: 'hmac-md5'
-    server: 38.145.33.9
+    server: "{{ ext_dns_ip }}"
+openshift_openstack_dns_nameservers:
+  - "{{ ext_dns_ip }}"
