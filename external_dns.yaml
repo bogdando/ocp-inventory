@@ -10,3 +10,5 @@ openshift_openstack_external_nsupdate_keys:
     server: "{{ ext_dns_ip }}"
 openshift_openstack_dns_nameservers:
   - "{{ ext_dns_ip }}"
+  - 208.67.222.220
+  - 130.255.73.90
