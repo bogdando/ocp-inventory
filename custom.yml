@@ -1,5 +1,5 @@
 # Configs for attic / contribs galaxy modules
-openshift_openstack_private_network_name: "openshift-ansible-{{ openshift_openstack_full_public_dns_domain }}-net"
+openshift_openstack_private_network_name: "openshift-ansible-{{ openshift_openstack_public_dns_domain }}-net"
 
 # Custom configs
 openshift_openstack_public_dns_domain: "cluster.lc"
