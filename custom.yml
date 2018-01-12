@@ -17,6 +17,19 @@ openshift_openstack_num_nodes: 1
 rhsm_register: False
 openshift_openstack_flat_secgrp: true
 openshift_openstack_ephemeral_volumes: true
+openshift_disable_check: disk_availability,memory_availability,package_availability,docker_image_availability,docker_storage,package_version
+
+# htpasswd auth
+openshift_master_identity_providers:
+  - name: htpasswd_auth
+    login: true
+    challenge: true
+    kind: HTPasswdPasswordIdentityProvider
+    filename: /etc/origin/master/htpasswd
+# Define htpasswd users, like:
+# export MYSECRET=$(htpasswd -nbm user1 Cvnmvnslslkjdgh123t6|awk -F ':' '{print $2}')
+openshift_master_htpasswd_users:
+  user1: "{{ lookup('env', 'MYSECRET') }}"
 
 # required for openshift-ansible compat
 openshift_master_unsupported_embedded_etcd: true
