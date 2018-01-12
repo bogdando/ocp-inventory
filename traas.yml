@@ -1,0 +1,25 @@
+openshift_openstack_cloud_init_runcmd:
+  - set -vx
+  - systemctl stop sshd # fences off ansible playbooks as we want to reboot later
+  - ['rpm', '-q', 'yum-plugin-priorities', '||', 'yum', '-y', 'install', 'yum-plugin-priorities']
+  - [rpm, -q, deltarpm, '||', yum, -y, install, deltarpm]
+  - ['rpm', '-q', 'git', '||', 'yum', '-y', 'install', 'git']
+  - ['rpm', '-q', 'python-pip', '||', 'yum', '-y', 'install', 'python-pip', '||', 'easy_install', 'pip']
+  - ['pip', 'install', 'git+https://github.com/openstack/tripleo-repos@master']
+  - ['tripleo-repos', '-b', 'master', 'current']
+  - ['pip', 'uninstall', '-y', 'tripleo-repos', 'requests', 'urllib3']
+  - ['yum', '-y', 'reinstall', 'python-requests', 'python-urllib3']
+  - ['yum', '-y', 'install', 'openstack-heat-agents']
+  - ['systemctl', 'daemon-reload']
+  - ['systemctl', 'enable', 'os-collect-config']
+  - ['systemctl', 'stop', 'os-collect-config']
+  - ['rm', '-rf', '/var/lib/os-collect-config']
+  - ['rm', '-rf', '/var/run/os-collect-config']
+  - ['rm', '-rf', '/var/lib/cloud/data/cfn-init-data']
+  - rm -f /var/lib/heat-cfntools/cfn-init-data
+  - ['mkdir', '-p', '/var/lib/os-collect-config/local-data']
+  - [echo, '"{ \"os-collect-config\": { \"collectors\": [\"heat\", \"request\", \"local\"], \"command\": \"os-refresh-config\" } }"', '>', /var/lib/os-collect-config/local-data/00-os-collect-config]
+  - ['rm', '-f', '/etc/os-collect-config.conf']
+  - ['os-apply-config', '-m', '/var/lib/os-collect-config/local-data/00-os-collect-config']
+  - sync
+  - ['reboot'] # unfences ansible playbooks to continue after reboot
