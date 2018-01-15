@@ -1,0 +1,56 @@
+---
+openshift_openstack_num_masters: 1
+openshift_openstack_num_infra: 0
+openshift_openstack_num_cns: 0
+openshift_openstack_num_nodes: 0
+
+openshift_schedulable: true
+# NOTE: I'm not sure with these.
+openshift_node_labels:
+  region: default
+  zone: default
+
+# The master has region=default selector hardcoded
+# and I want it contain all needed for all-in-one deployment.
+openshift_openstack_cluster_node_labels:
+  app:
+    region: default
+    zone: default
+  infra:
+    region: default
+    zone: default
+
+# based on openshift-ansible/test/ci/inventory/group_vars/OSEv3/general.yml                                                                                                       
+# and https://review.openstack.org/#/c/494470 ...
+debug_level: 5
+osm_default_node_selector: "region=default"
+osm_controller_args:
+  enable-hostpath-provisioner:
+    - "true"
+openshift_hosted_router_selector: "region=default"
+openshift_hosted_registry_selector: "region=default"
+openshift_master_audit_config:
+  enabled: true
+openshift_template_service_broker_namespaces:
+  - "openshift"
+enable_excluders: false
+#osm_cluster_network_cidr: "10.128.0.0/14"
+#openshift_portal_net: "172.30.0.0/16"
+#osm_host_subnet_length: 9
+
+# w/a ovs selinux https://bugzilla.redhat.com/show_bug.cgi?id=1482682
+containerized: true
+openshift_docker_selinux_enabled: false
+osm_etcd_image: "registry.fedoraproject.org/f27/etcd"
+openshift_release: '3.7'
+openshift_image_tag: v3.7.0
+
+openshift_web_console_install: false
+openshift_web_console_nodeselector: "region=default"
+
+template_service_broker_selector: { "region": "default" }
+openshift_router_selector: "region=default"
+openshift_registry_selector: "region=default"
+openshift_prometheus_node_selector: {"region":"default"}
+openshift_hosted_infra_selector: "region=default"
+
