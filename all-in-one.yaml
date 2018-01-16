@@ -12,23 +12,23 @@ openshift_node_labels:
 
 # The master has region=default selector hardcoded
 # and I want it contain all needed for all-in-one deployment.
+labels_all_in_one: { "region": "all-in-one" }
+selector_all_on_one: "{% for k,v in labels_all_in_one.items() %}{{k|e}}={{v|e}}{% if not loop.last %},{% endif %}{% endfor %}"
 openshift_openstack_cluster_node_labels:
-  app:
-    region: default
-    zone: default
-  infra:
-    region: default
-    zone: default
+  app: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
+  infra: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
+  masters: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
+  cns: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
 
 # based on openshift-ansible/test/ci/inventory/group_vars/OSEv3/general.yml                                                                                                       
 # and https://review.openstack.org/#/c/494470 ...
 debug_level: 5
-osm_default_node_selector: "region=default"
+osm_default_node_selector: "{{ selector_all_on_one }}"
+template_service_broker_selector: "{{ labels_all_in_one|tojson }}"
+openshift_prometheus_node_selector: "{{ labels_all_in_one|tojson }}"
 osm_controller_args:
   enable-hostpath-provisioner:
     - "true"
-openshift_hosted_router_selector: "region=default"
-openshift_hosted_registry_selector: "region=default"
 openshift_master_audit_config:
   enabled: true
 openshift_template_service_broker_namespaces:
@@ -46,11 +46,9 @@ openshift_release: '3.7'
 openshift_image_tag: v3.7.0
 
 openshift_web_console_install: false
-openshift_web_console_nodeselector: "region=default"
-
-template_service_broker_selector: { "region": "default" }
-openshift_router_selector: "region=default"
-openshift_registry_selector: "region=default"
-openshift_prometheus_node_selector: {"region":"default"}
-openshift_hosted_infra_selector: "region=default"
-
+openshift_web_console_nodeselector: "{{ selector_all_on_one }}"
+openshift_hosted_router_selector: "{{ selector_all_on_one }}"
+openshift_hosted_registry_selector: "{{ selector_all_on_one }}"
+openshift_router_selector: "{{ selector_all_on_one }}"
+openshift_registry_selector: "{{ selector_all_on_one }}"
+openshift_hosted_infra_selector: "{{ selector_all_on_one }}"
