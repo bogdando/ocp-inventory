@@ -6,7 +6,6 @@ public_key: "{{ lookup('pipe', lookup_cmd) }}"
 openshift_openstack_cloud_init_runcmd:
   - set -vx
   - systemctl stop sshd # fences off ansible playbooks as we want to reboot later
-  - mkdir -p /home/openshift/.ssh
   - echo "{{public_key|trim|quote}}" >> /home/openshift/.ssh/authorized_keys
   - ['rpm', '-q', 'yum-plugin-priorities', '||', 'yum', '-y', 'install', 'yum-plugin-priorities']
   - [rpm, -q, deltarpm, '||', yum, -y, install, deltarpm]
