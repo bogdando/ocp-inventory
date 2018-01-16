@@ -5,20 +5,17 @@ openshift_openstack_num_cns: 0
 openshift_openstack_num_nodes: 0
 
 openshift_schedulable: true
-# NOTE: I'm not sure with these.
-openshift_node_labels:
-  region: default
-  zone: default
 
 # The master has region=default selector hardcoded
 # and I want it contain all needed for all-in-one deployment.
 labels_all_in_one: { "region": "all-in-one" }
+openshift_node_labels: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
 selector_all_on_one: "{% for k,v in labels_all_in_one.items() %}{{k|e}}={{v|e}}{% if not loop.last %},{% endif %}{% endfor %}"
 openshift_openstack_cluster_node_labels:
-  app: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
-  infra: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
-  masters: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
-  cns: "{{ labels_all_in_one|combine({'zone':'default'}, recursive=True)|tojson }}"
+  app: "{{ openshift_node_labels }}"
+  infra: "{{ openshift_node_labels }}"
+  masters: "{{ openshift_node_labels }}"
+  cns: "{{ openshift_node_labels }}"
 
 # based on openshift-ansible/test/ci/inventory/group_vars/OSEv3/general.yml                                                                                                       
 # and https://review.openstack.org/#/c/494470 ...
