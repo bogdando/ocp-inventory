@@ -36,11 +36,11 @@ enable_excluders: false
 #osm_host_subnet_length: 9
 
 # w/a ovs selinux https://bugzilla.redhat.com/show_bug.cgi?id=1482682
-containerized: true
-openshift_docker_selinux_enabled: false
-osm_etcd_image: "registry.fedoraproject.org/f27/etcd"
-openshift_release: '3.7'
-openshift_image_tag: v3.7.0
+#containerized: true
+#openshift_docker_selinux_enabled: false
+#osm_etcd_image: "registry.fedoraproject.org/f27/etcd"
+openshift_release: '3.9'
+openshift_image_tag: v3.9.0
 
 openshift_web_console_install: false
 openshift_web_console_nodeselector: "{{ selector_all_on_one }}"
