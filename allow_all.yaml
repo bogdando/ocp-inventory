@@ -1,0 +1,19 @@
+openshift_openstack_cns_secgroup_rules: []
+openshift_openstack_infra_secgroup_rules: []
+openshift_openstack_lb_base_secgroup_rules: []
+openshift_openstack_lb_console_secgroup_rules: []
+openshift_openstack_master_secgroup_rules: []
+openshift_openstack_node_secgroup_rules: []
+openshift_openstack_etcd_secgroup_rules: []
+openshift_openstack_etcd_flat_secgroup_rules: []
+openshift_openstack_common_secgroup_rules:
+  - direction: ingress
+    protocol: icmp
+  - direction: ingress
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 65535
+  - direction: ingress
+    protocol: udp
+    port_range_min: 22
+    port_range_max: 65535
